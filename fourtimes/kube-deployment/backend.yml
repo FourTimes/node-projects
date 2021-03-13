@@ -1,0 +1,57 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-server
+  labels:
+    project: fourtimes
+    tier: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+      - name: api-server
+        image: jjino/fourtimes-api-server:v1
+        ports:
+        - containerPort: 8080
+        env:
+          - name: SERVICE 
+            value: db-server-service
+        envFrom:
+        - secretRef:
+            name: api-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-server-service
+  labels:
+    project: fourtimes
+    tier: api
+spec:
+  type: LoadBalancer
+  selector:
+    app: api
+  ports:
+  - port: 80
+    targetPort: 8080
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: api-secret
+  labels:
+    project: fourtimes
+    tier: api
+type: Opaque
+data:
+  USERNAME: Zm91cnRpbWVz
+  PASSWORD: Zm91cnRpbWVz
+  DB: Zm91cnRpbWVz
