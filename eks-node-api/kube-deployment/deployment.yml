@@ -1,0 +1,45 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-version-1
+  labels:
+    client: lion
+spec:
+  strategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+    type: RollingUpdate
+  replicas: 3
+  minReadySeconds: 10
+  selector:
+    matchLabels:
+      role: webserver
+  template:
+    metadata:
+      name: web
+      labels:
+        role: webserver
+    spec:
+      containers:
+      - name: web
+        image: containerImageName
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lion-deploymnt-web-server-service
+  labels:
+    role: webserver
+spec:
+  type: LoadBalancer
+  selector:
+    role: webserver
+  ports:
+    - port: 80
+      targetPort: 8080
