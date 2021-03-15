@@ -1,0 +1,12 @@
+._HeadersFont {
+    background-color: white;
+}
+
+._HeadersFont:hover {
+  background-color: white;
+  color: green;
+}
+
+._navbar{
+  font-weight: bold;
+}
