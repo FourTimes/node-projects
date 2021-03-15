@@ -1,0 +1,12 @@
+{
+    "name": "demo-app development",
+    "database": {
+        "host": "localhost",
+        "user": "root",
+        "password": "password",
+        "database": "jino"
+    },
+    "postgres": {
+        "connectionString": "postgres://jino:jino@localhost:5432/jino"
+    }
+}
